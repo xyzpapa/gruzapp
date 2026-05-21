@@ -1,0 +1,153 @@
+/* ========================================
+   GRUZAPP — CTA + Gate стили
+   ======================================== */
+
+/* ---- GATE (мини-форма регистрации) ---- */
+.gate {
+  background: #0d0d0d;
+  border: 1px solid #c6ff00;
+  border-radius: 16px;
+  padding: 40px 28px;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.gate-icon {
+  font-size: 32px;
+  margin-bottom: 16px;
+}
+
+.gate-title {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #fff;
+}
+
+.gate-sub {
+  color: #999;
+  font-size: 14px;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.gate-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.gate-input {
+  width: 100%;
+  background: #000;
+  border: 1px solid #2a2a2a;
+  color: #fff;
+  padding: 14px 16px;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.gate-input:focus {
+  border-color: #c6ff00;
+}
+
+.gate-input::placeholder {
+  color: #666;
+}
+
+.gate-submit {
+  width: 100%;
+  background: #c6ff00;
+  color: #000;
+  border: none;
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s;
+  margin-top: 4px;
+}
+
+.gate-submit:hover {
+  background: #b8ee00;
+}
+
+.gate-submit:disabled {
+  background: #2a2a2a;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.gate-privacy {
+  font-size: 12px;
+  color: #666;
+  margin-top: 14px;
+}
+
+/* ---- CTA (кнопки TG + MAX) ---- */
+.cta-final {
+  background: #0d0d0d;
+  border: 1px solid #c6ff00;
+  border-radius: 16px;
+  padding: 32px 28px;
+  text-align: center;
+  margin-top: 32px;
+}
+
+.cta-final h3 {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+.cta-final p {
+  color: #999;
+  margin-bottom: 24px;
+  font-size: 15px;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.15s;
+  min-width: 200px;
+  justify-content: center;
+}
+
+.cta-icon { font-size: 16px; }
+
+.cta-tg { background: #c6ff00; color: #000; }
+.cta-tg:hover { background: #b8ee00; }
+
+.cta-max { background: transparent; color: #fff; border: 1px solid #fff; }
+.cta-max:hover { background: #fff; color: #000; }
+
+@media (max-width: 480px) {
+  .cta-buttons { flex-direction: column; }
+  .cta-btn { min-width: unset; width: 100%; }
+  .gate { padding: 28px 20px; }
+}

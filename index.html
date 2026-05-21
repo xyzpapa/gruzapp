@@ -4,128 +4,124 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GRUZAPP — грузоперевозки без субподряда</title>
-<meta name="description" content="Один договор. Один ответственный. Живой трекинг.">
-
+<link rel="stylesheet" href="cta.css">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Inter:wght@400;500;600&display=swap');
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Inter', sans-serif; background: #000; color: #fff; min-height: 100vh; padding: 40px 20px; }
   .container { max-width: 420px; margin: 0 auto; }
-  .logo { font-family: 'Unbounded', sans-serif; font-size: 32px; font-weight: 900; text-align: center; margin-bottom: 8px; letter-spacing: -0.02em; }
+  .logo { font-family: 'Unbounded', sans-serif; font-size: 32px; font-weight: 900; text-align: center; margin-bottom: 8px; }
   .logo span { color: #c6ff00; }
   .tagline { text-align: center; color: #999; font-size: 14px; margin-bottom: 8px; }
   .tagline-2 { text-align: center; color: #666; font-size: 12px; margin-bottom: 40px; }
-
-  .link {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    background: #0d0d0d;
-    border: 1px solid #1f1f1f;
-    border-radius: 14px;
-    padding: 18px 20px;
-    text-decoration: none;
-    color: #fff;
-    margin-bottom: 12px;
-    transition: all 0.15s;
-  }
+  .welcome { text-align: center; color: #c6ff00; font-size: 14px; font-weight: 600; margin-bottom: 24px; }
+  .link { display: flex; align-items: center; gap: 14px; background: #0d0d0d; border: 1px solid #1f1f1f; border-radius: 14px; padding: 18px 20px; text-decoration: none; color: #fff; margin-bottom: 12px; transition: all 0.15s; }
   .link:hover { border-color: #c6ff00; transform: translateY(-1px); }
-  .link-icon {
-    width: 40px; height: 40px;
-    background: #1a1a1a;
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-  }
+  .link-icon { width: 40px; height: 40px; background: #1a1a1a; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
   .link-text { flex: 1; }
   .link-title { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
   .link-sub { font-size: 12px; color: #999; }
   .link-arrow { color: #666; font-size: 16px; }
-
-  .link.primary { background: #c6ff00; border-color: #c6ff00; color: #000; }
-  .link.primary:hover { background: #b8ee00; }
-  .link.primary .link-icon { background: rgba(0,0,0,0.15); }
-  .link.primary .link-sub { color: rgba(0,0,0,0.7); }
-  .link.primary .link-arrow { color: #000; }
-
-  .socials { display: flex; justify-content: center; gap: 12px; margin-top: 32px; }
-  .social-btn {
-    width: 44px; height: 44px;
-    background: #0d0d0d;
-    border: 1px solid #1f1f1f;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    text-decoration: none;
-    color: #999;
-    font-size: 18px;
-  }
-
+  .link.tg { background: #c6ff00; border-color: #c6ff00; color: #000; }
+  .link.tg:hover { background: #b8ee00; }
+  .link.tg .link-icon { background: rgba(0,0,0,0.15); }
+  .link.tg .link-sub { color: rgba(0,0,0,0.7); }
+  .link.tg .link-arrow { color: #000; }
+  .link.max { background: #fff; border-color: #fff; color: #000; }
+  .link.max:hover { background: #eee; }
+  .link.max .link-icon { background: rgba(0,0,0,0.08); }
+  .link.max .link-sub { color: rgba(0,0,0,0.6); }
+  .link.max .link-arrow { color: #000; }
+  .divider { text-align: center; color: #444; font-size: 11px; margin: 20px 0 16px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .menu { display: none; }
+  .menu.show { display: block; }
   footer { text-align: center; margin-top: 40px; font-size: 11px; color: #555; }
 </style>
 </head>
 <body>
-
 <div class="container">
-
   <div class="logo">GRUZ<span>APP</span></div>
   <div class="tagline">Грузоперевозки без субподрядных цепочек</div>
   <div class="tagline-2">Один договор · Один ответственный · Живой трекинг</div>
 
-  <a href="https://wa.me/79991234567?text=Хочу%20расчёт%20доставки" class="link primary">
-    <div class="link-icon">💬</div>
-    <div class="link-text">
-      <div class="link-title">Получить расчёт за 15 минут</div>
-      <div class="link-sub">WhatsApp / Telegram</div>
-    </div>
-    <div class="link-arrow">→</div>
-  </a>
+  <div id="gate"></div>
 
-  <a href="/calc.html" class="link">
-    <div class="link-icon">📊</div>
-    <div class="link-text">
-      <div class="link-title">Калькулятор потерь</div>
-      <div class="link-sub">Для интернет-магазинов и B2B</div>
-    </div>
-    <div class="link-arrow">→</div>
-  </a>
+  <div id="menu" class="menu">
+    <div class="welcome" id="welcome"></div>
 
-  <a href="/audit.html" class="link">
-    <div class="link-icon">🛡</div>
-    <div class="link-text">
-      <div class="link-title">Аудит перевозчика</div>
-      <div class="link-sub">7 вопросов своей службе доставки</div>
-    </div>
-    <div class="link-arrow">→</div>
-  </a>
+    <a href="" id="tg-main" class="link tg" target="_blank">
+      <div class="link-icon">✈</div>
+      <div class="link-text">
+        <div class="link-title">Написать в Telegram</div>
+        <div class="link-sub">Расчёт за 15 минут</div>
+      </div>
+      <div class="link-arrow">→</div>
+    </a>
 
-  <a href="/contract.html" class="link">
-    <div class="link-icon">📋</div>
-    <div class="link-text">
-      <div class="link-title">Проверка договора</div>
-      <div class="link-sub">6 пунктов со светофором</div>
-    </div>
-    <div class="link-arrow">→</div>
-  </a>
+    <a href="" id="max-main" class="link max" target="_blank">
+      <div class="link-icon">◆</div>
+      <div class="link-text">
+        <div class="link-title">Написать в MAX</div>
+        <div class="link-sub">Бот-ассистент GRUZAPP</div>
+      </div>
+      <div class="link-arrow">→</div>
+    </a>
 
-  <a href="/moving.html" class="link">
-    <div class="link-icon">🏠</div>
-    <div class="link-text">
-      <div class="link-title">План переезда за 3 дня</div>
-      <div class="link-sub">Для частных лиц</div>
-    </div>
-    <div class="link-arrow">→</div>
-  </a>
+    <div class="divider">Полезные инструменты</div>
 
-  <div class="socials">
-    <a href="#" class="social-btn">📱</a>
-    <a href="#" class="social-btn">🎥</a>
-    <a href="#" class="social-btn">💼</a>
+    <a href="/calc.html" class="link">
+      <div class="link-icon">📊</div>
+      <div class="link-text">
+        <div class="link-title">Калькулятор потерь</div>
+        <div class="link-sub">Для интернет-магазинов и B2B</div>
+      </div>
+      <div class="link-arrow">→</div>
+    </a>
+
+    <a href="/audit.html" class="link">
+      <div class="link-icon">🛡</div>
+      <div class="link-text">
+        <div class="link-title">Аудит перевозчика</div>
+        <div class="link-sub">7 вопросов своей службе доставки</div>
+      </div>
+      <div class="link-arrow">→</div>
+    </a>
+
+    <a href="/contract.html" class="link">
+      <div class="link-icon">📋</div>
+      <div class="link-text">
+        <div class="link-title">Проверка договора</div>
+        <div class="link-sub">6 пунктов со светофором</div>
+      </div>
+      <div class="link-arrow">→</div>
+    </a>
+
+    <a href="/moving.html" class="link">
+      <div class="link-icon">🏠</div>
+      <div class="link-text">
+        <div class="link-title">План переезда за 3 дня</div>
+        <div class="link-sub">Для частных лиц</div>
+      </div>
+      <div class="link-arrow">→</div>
+    </a>
   </div>
 
   <footer>© 2025 GRUZAPP</footer>
-
 </div>
 
+<script src="app.js"></script>
+<script>
+function showMenu() {
+  const user = GRUZAPP.getUser();
+  document.getElementById('menu').classList.add('show');
+  document.getElementById('welcome').textContent = user ? `Привет, ${user.name} 👋` : '';
+  document.getElementById('tg-main').href = GRUZAPP.TG_LINK + (user ? `?text=Привет, меня зовут ${encodeURIComponent(user.name)}. Хочу расчёт доставки.` : '');
+  document.getElementById('max-main').href = GRUZAPP.MAX_LINK;
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  GRUZAPP.renderGate('gate', 'index', showMenu);
+});
+</script>
 </body>
 </html>

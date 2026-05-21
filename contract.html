@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Как читать договор с перевозчиком | GRUZAPP</title>
-
+<link rel="stylesheet" href="cta.css">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Inter:wght@400;500;600&display=swap');
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -16,31 +16,10 @@
   .hero-kicker { display: inline-block; background: rgba(198,255,0,0.12); color: #c6ff00; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 20px; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.04em; }
   .hero h1 { font-family: 'Unbounded', sans-serif; font-size: clamp(28px, 5vw, 42px); font-weight: 700; line-height: 1.15; margin-bottom: 20px; }
   .hero h1 .accent { color: #c6ff00; }
-  .hero p { font-size: 17px; color: #999; max-width: 580px; margin: 0 auto 32px; }
-  .form-block { background: #0d0d0d; border: 1px solid #1f1f1f; border-radius: 16px; padding: 32px 28px; margin-bottom: 32px; }
-  .form-block h2 { font-family: 'Unbounded', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 8px; }
-  .form-block .sub { color: #999; font-size: 14px; margin-bottom: 24px; }
-  .form-row { margin-bottom: 14px; }
-  .form-row label { display: block; font-size: 13px; color: #999; margin-bottom: 6px; }
-  .form-row input { width: 100%; background: #000; border: 1px solid #2a2a2a; color: #fff; padding: 14px 16px; font-size: 15px; font-family: inherit; border-radius: 10px; outline: none; }
-  .form-row input:focus { border-color: #c6ff00; }
-  .submit-btn { width: 100%; background: #c6ff00; color: #000; border: none; padding: 16px 24px; font-size: 16px; font-weight: 700; font-family: inherit; border-radius: 10px; cursor: pointer; margin-top: 8px; }
-  .submit-btn:hover { background: #b8ee00; }
-  .submit-btn:disabled { background: #2a2a2a; color: #666; cursor: not-allowed; }
-  .privacy { text-align: center; font-size: 12px; color: #666; margin-top: 14px; }
-
-  .error-box { background: rgba(255,80,80,0.08); border: 1px solid rgba(255,80,80,0.4); color: #ff9999; padding: 14px 18px; border-radius: 10px; margin-bottom: 16px; font-size: 13px; line-height: 1.6; display: none; }
-  .error-box.show { display: block; }
-  .error-box strong { color: #ff6666; display: block; margin-bottom: 6px; }
-  .error-box code { font-family: monospace; font-size: 11px; background: rgba(0,0,0,0.5); padding: 2px 6px; border-radius: 4px; word-break: break-all; color: #c6ff00; }
-
-  .skip-link { text-align: center; margin-top: 12px; }
-  .skip-link button { background: transparent; border: none; color: #666; font-size: 12px; cursor: pointer; text-decoration: underline; font-family: inherit; }
-
-  .reader-section { display: none; }
-  .reader-section.active { display: block; }
-  .success-msg { background: rgba(198,255,0,0.1); border: 1px solid rgba(198,255,0,0.3); color: #c6ff00; padding: 14px 18px; border-radius: 10px; margin-bottom: 24px; font-size: 14px; }
-  .legend { display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+  .hero p { font-size: 17px; color: #999; max-width: 580px; margin: 0 auto; }
+  .content { display: none; }
+  .content.show { display: block; }
+  .legend { display: flex; gap: 16px; margin-bottom: 20px; }
   .lg { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #999; }
   .dot { width: 8px; height: 8px; border-radius: 50%; }
   .dot.g { background: #c6ff00; }
@@ -54,161 +33,64 @@
   .flag-row.green { background: rgba(198,255,0,0.1); color: #c6ff00; border: 1px solid rgba(198,255,0,0.25); }
   .flag-row.red { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid #2a2a2a; }
   .flag-icon { font-size: 14px; flex-shrink: 0; font-weight: 700; }
-  .flag-label { font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; display: block; margin-bottom: 2px; opacity: 0.7; }
-
+  .flag-label { font-weight: 700; font-size: 11px; text-transform: uppercase; display: block; margin-bottom: 2px; opacity: 0.7; }
   .checklist { background: #0d0d0d; border: 1px solid #1f1f1f; border-radius: 12px; padding: 22px; margin: 24px 0; }
   .checklist-title { font-size: 14px; font-weight: 600; margin-bottom: 14px; }
   .check-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-size: 13px; cursor: pointer; }
   .check-box { width: 18px; height: 18px; border: 1.5px solid #444; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .check-box.on { background: #c6ff00; border-color: #c6ff00; color: #000; font-weight: 700; }
-  .check-text { color: #fff; }
   .check-item.on .check-text { text-decoration: line-through; color: #666; }
-
-  .cta-final { background: #0d0d0d; border: 1px solid #c6ff00; border-radius: 16px; padding: 32px 28px; text-align: center; margin-top: 24px; }
-  .cta-final h3 { font-family: 'Unbounded', sans-serif; font-size: 22px; margin-bottom: 12px; }
-  .cta-final p { color: #999; margin-bottom: 24px; font-size: 15px; }
-  .cta-btn { display: inline-block; background: #c6ff00; color: #000; text-decoration: none; padding: 14px 32px; font-size: 15px; font-weight: 700; border-radius: 10px; }
-  .cta-btn:hover { background: #b8ee00; }
   footer { text-align: center; margin-top: 48px; padding-top: 32px; border-top: 1px solid #1f1f1f; font-size: 12px; color: #666; }
 </style>
 </head>
 <body>
-
 <div class="container">
-  <div class="logo">GRUZ<span>APP</span></div>
-
+  <a href="/" style="text-decoration:none; color:inherit;"><div class="logo">GRUZ<span>APP</span></div></a>
   <div class="hero">
     <div class="hero-kicker">Проверка договора</div>
-    <h1>Большинство договоров написаны <span class="accent">не в твою пользу</span></h1>
-    <p>6 пунктов, которые либо защищают тебя, либо оставляют ни с чем.</p>
+    <h1>Большинство договоров <span class="accent">не в твою пользу</span></h1>
+    <p>6 пунктов — проверь свой договор прямо сейчас.</p>
   </div>
 
-  <div id="form-block" class="form-block">
-    <h2>Открыть инструмент</h2>
-    <p class="sub">Получишь чек-лист со светофором и образец нормального договора.</p>
+  <div id="gate"></div>
 
-    <div id="error-box" class="error-box"></div>
-
-    <form id="lead-form">
-      <div class="form-row"><label>Имя</label><input type="text" id="name" required></div>
-      <div class="form-row"><label>Телефон или email</label><input type="text" id="contact" required></div>
-      <button type="submit" class="submit-btn" id="submit-btn">Открыть инструмент</button>
-      <div class="privacy">Согласие с обработкой данных.</div>
-    </form>
-
-    <div class="skip-link"><button id="skip-btn">пропустить и посмотреть инструмент</button></div>
-  </div>
-
-  <div id="reader-section" class="reader-section">
-    <div class="success-msg">✓ Готово. Бери свой договор и сверяй.</div>
-    <div class="legend">
-      <div class="lg"><span class="dot g"></span>Должно быть так</div>
-      <div class="lg"><span class="dot r"></span>Красный флаг</div>
-    </div>
+  <div id="content" class="content">
+    <div class="legend"><div class="lg"><span class="dot g"></span>Должно быть</div><div class="lg"><span class="dot r"></span>Красный флаг</div></div>
     <div id="points"></div>
-    <div class="checklist">
-      <div class="checklist-title">Чек-лист при подписании</div>
-      <div id="check-list"></div>
-    </div>
-    <div class="cta-final">
-      <h3>Хочешь увидеть, как выглядит правильный договор?</h3>
-      <p>Пришлём образец GRUZAPP, в котором закрыты все 6 пунктов.</p>
-      <a href="https://wa.me/79991234567?text=Хочу%20образец%20договора" class="cta-btn">Получить образец</a>
-    </div>
+    <div class="checklist"><div class="checklist-title">Чек-лист при подписании</div><div id="check-list"></div></div>
+    <div id="cta"></div>
   </div>
 
-  <footer>GRUZAPP — грузоперевозки без субподряда<br>© 2025</footer>
+  <footer>GRUZAPP · © 2025</footer>
 </div>
 
-<script type="module">
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-const SUPABASE_URL = 'https://htftklrysatwhqznbtty.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_8GinUKWP4PAEdCOvgKhb0w_8jK8Kny5';
-
-const errorBox = document.getElementById('error-box');
-const submitBtn = document.getElementById('submit-btn');
-function showError(t, d) { errorBox.innerHTML = `<strong>${t}</strong>${d}`; errorBox.classList.add('show'); }
-function hideError() { errorBox.classList.remove('show'); }
-function showReader() {
-  document.getElementById('form-block').style.display = 'none';
-  document.getElementById('reader-section').classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-document.getElementById('skip-btn').addEventListener('click', showReader);
-
-const keysOk = SUPABASE_URL !== 'YOUR_SUPABASE_URL' && SUPABASE_ANON_KEY !== 'YOUR_SUPABASE_ANON_KEY' && SUPABASE_URL.startsWith('https://');
-let supabase = null;
-if (keysOk) {
-  try { supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY); } catch (e) { showError('Ошибка', e.message); }
-} else {
-  showError('Не вставлены ключи Supabase', 'Замени <code>YOUR_SUPABASE_URL</code> и <code>YOUR_SUPABASE_ANON_KEY</code> внизу файла. Пока — жми «пропустить».');
-}
-
-function getUtm() {
-  const p = new URLSearchParams(window.location.search);
-  return { utm_source: p.get('utm_source') || null, utm_medium: p.get('utm_medium') || null, utm_campaign: p.get('utm_campaign') || null, referrer: document.referrer || null };
-}
-
-document.getElementById('lead-form').addEventListener('submit', async (e) => {
-  e.preventDefault(); hideError();
-  const name = document.getElementById('name').value.trim();
-  const contact = document.getElementById('contact').value.trim();
-  if (!name || !contact) { showError('Заполни оба поля', ''); return; }
-  if (!supabase) { showError('Supabase не подключён', 'Проверь ключи.'); return; }
-  submitBtn.disabled = true; submitBtn.textContent = 'Отправляем...';
-  try {
-    const { error } = await supabase.from('leads').insert({ name, contact, source: 'contract', segment: 'b2b', status: 'new', utm: getUtm() });
-    if (error) {
-      let h = error.message;
-      const m = (error.message || '').toLowerCase();
-      if (m.includes('row-level') || m.includes('policy')) h += '<br><br><code>ALTER TABLE leads ENABLE ROW LEVEL SECURITY; CREATE POLICY "Allow public insert" ON leads FOR INSERT TO anon WITH CHECK (true);</code>';
-      if (m.includes('column') || m.includes('does not exist')) h += '<br><br>Проверь колонки: name, contact, source, segment, status, utm.';
-      throw new Error(h);
-    }
-    showReader();
-  } catch (err) {
-    showError('Не удалось отправить', err.message);
-    submitBtn.disabled = false; submitBtn.textContent = 'Попробовать снова';
-  }
-});
-
-const points = [
-  { title: "Ответственность за груз", good: "Полная материальная ответственность с момента приёмки до передачи", bad: "«Ответственность ограничена стоимостью фрахта» или форс-мажор без определения" },
-  { title: "Порядок предъявления претензий", good: "Конкретный срок (7 дней) и конкретный ответственный с контактами", bad: "«В индивидуальном порядке» без сроков и контактов" },
-  { title: "Изменение тарифов", good: "Не ранее чем за 30 дней с письменным уведомлением", bad: "«Вправе изменять без предварительного уведомления»" },
-  { title: "Субподрядчики", good: "Запрет на субподряд ИЛИ ответственность перевозчика за их действия", bad: "«Вправе привлекать третьих лиц» без указания ответственности" },
-  { title: "Страхование", good: "Указано название страховой, номер полиса, сумма, перечень случаев", bad: "«Груз застрахован» без реквизитов" },
-  { title: "Порядок расторжения", good: "Расторжение с уведомлением за 30 дней без штрафов", bad: "Штрафы за досрочное расторжение, обязательный срок без выхода" }
+<script src="app.js"></script>
+<script>
+const pts = [
+  { t: "Ответственность за груз", g: "Полная ответственность с приёмки до передачи", b: "Ограничена стоимостью фрахта" },
+  { t: "Претензии", g: "Срок 7 дней, контакт ответственного", b: "В индивидуальном порядке" },
+  { t: "Тарифы", g: "Изменение за 30 дней с уведомлением", b: "Без уведомления" },
+  { t: "Субподряд", g: "Запрет или ответственность перевозчика", b: "Привлечение третьих лиц без ответственности" },
+  { t: "Страхование", g: "Страховая, полис, сумма, случаи", b: "Застрахован без реквизитов" },
+  { t: "Расторжение", g: "За 30 дней без штрафов", b: "Штрафы за досрочное расторжение" }
 ];
-const checklist = [
-  "Ответственность за груз прописана конкретно",
-  "Сроки рассмотрения претензий указаны",
-  "Изменение тарифов — за 30 дней",
-  "Субподряд — с ответственностью перевозчика",
-  "Страховка — с реальными реквизитами",
-  "Расторжение — без скрытых штрафов"
-];
+const cl = ["Ответственность прописана","Сроки претензий указаны","Тарифы — за 30 дней","Субподряд — с ответственностью","Страховка — с реквизитами","Расторжение без штрафов"];
 
-document.getElementById('points').innerHTML = points.map((p, i) => `
-  <div class="point">
-    <div class="point-head"><div class="point-num">${i+1}</div><div class="point-title">${p.title}</div></div>
-    <div class="flags">
-      <div class="flag-row green"><span class="flag-icon">✓</span><div><span class="flag-label">Должно быть</span>${p.good}</div></div>
-      <div class="flag-row red"><span class="flag-icon">✕</span><div><span class="flag-label">Красный флаг</span>${p.bad}</div></div>
-    </div>
-  </div>`).join('');
-
-document.getElementById('check-list').innerHTML = checklist.map((c, i) => `
-  <div class="check-item" data-i="${i}"><div class="check-box"></div><div class="check-text">${c}</div></div>`).join('');
-
-document.querySelectorAll('.check-item').forEach(item => {
-  item.addEventListener('click', () => {
+function showContent() {
+  document.getElementById('content').classList.add('show');
+  document.getElementById('points').innerHTML = pts.map((p, i) => `
+    <div class="point"><div class="point-head"><div class="point-num">${i+1}</div><div class="point-title">${p.t}</div></div>
+    <div class="flags"><div class="flag-row green"><span class="flag-icon">✓</span><div><span class="flag-label">Должно быть</span>${p.g}</div></div>
+    <div class="flag-row red"><span class="flag-icon">✕</span><div><span class="flag-label">Красный флаг</span>${p.b}</div></div></div></div>`).join('');
+  document.getElementById('check-list').innerHTML = cl.map((c,i) => `<div class="check-item" data-i="${i}"><div class="check-box"></div><div class="check-text">${c}</div></div>`).join('');
+  document.querySelectorAll('.check-item').forEach(item => item.addEventListener('click', () => {
     item.classList.toggle('on');
-    const box = item.querySelector('.check-box');
-    box.classList.toggle('on');
-    box.textContent = box.classList.contains('on') ? '✓' : '';
-  });
-});
+    const b = item.querySelector('.check-box'); b.classList.toggle('on'); b.textContent = b.classList.contains('on') ? '✓' : '';
+  }));
+  GRUZAPP.renderCTA('cta', 'contract', 'Хочешь правильный договор?', 'Пришлём образец GRUZAPP.');
+}
+
+window.addEventListener('DOMContentLoaded', () => GRUZAPP.renderGate('gate', 'contract', showContent));
 </script>
 </body>
 </html>

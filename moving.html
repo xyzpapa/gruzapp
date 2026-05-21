@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>План переезда за 3 дня | GRUZAPP</title>
-
+<link rel="stylesheet" href="cta.css">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Inter:wght@400;500;600&display=swap');
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -16,41 +16,19 @@
   .hero-kicker { display: inline-block; background: rgba(198,255,0,0.12); color: #c6ff00; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 20px; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.04em; }
   .hero h1 { font-family: 'Unbounded', sans-serif; font-size: clamp(28px, 5vw, 42px); font-weight: 700; line-height: 1.15; margin-bottom: 20px; }
   .hero h1 .accent { color: #c6ff00; }
-  .hero p { font-size: 17px; color: #999; max-width: 580px; margin: 0 auto 32px; }
-  .form-block { background: #0d0d0d; border: 1px solid #1f1f1f; border-radius: 16px; padding: 32px 28px; margin-bottom: 32px; }
-  .form-block h2 { font-family: 'Unbounded', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 8px; }
-  .form-block .sub { color: #999; font-size: 14px; margin-bottom: 24px; }
-  .form-row { margin-bottom: 14px; }
-  .form-row label { display: block; font-size: 13px; color: #999; margin-bottom: 6px; }
-  .form-row input { width: 100%; background: #000; border: 1px solid #2a2a2a; color: #fff; padding: 14px 16px; font-size: 15px; font-family: inherit; border-radius: 10px; outline: none; }
-  .form-row input:focus { border-color: #c6ff00; }
-  .submit-btn { width: 100%; background: #c6ff00; color: #000; border: none; padding: 16px 24px; font-size: 16px; font-weight: 700; font-family: inherit; border-radius: 10px; cursor: pointer; margin-top: 8px; }
-  .submit-btn:hover { background: #b8ee00; }
-  .submit-btn:disabled { background: #2a2a2a; color: #666; cursor: not-allowed; }
-  .privacy { text-align: center; font-size: 12px; color: #666; margin-top: 14px; }
-
-  .error-box { background: rgba(255,80,80,0.08); border: 1px solid rgba(255,80,80,0.4); color: #ff9999; padding: 14px 18px; border-radius: 10px; margin-bottom: 16px; font-size: 13px; line-height: 1.6; display: none; }
-  .error-box.show { display: block; }
-  .error-box strong { color: #ff6666; display: block; margin-bottom: 6px; }
-  .error-box code { font-family: monospace; font-size: 11px; background: rgba(0,0,0,0.5); padding: 2px 6px; border-radius: 4px; word-break: break-all; color: #c6ff00; }
-
-  .skip-link { text-align: center; margin-top: 12px; }
-  .skip-link button { background: transparent; border: none; color: #666; font-size: 12px; cursor: pointer; text-decoration: underline; font-family: inherit; }
-
-  .plan-section { display: none; }
-  .plan-section.active { display: block; }
-  .success-msg { background: rgba(198,255,0,0.1); border: 1px solid rgba(198,255,0,0.3); color: #c6ff00; padding: 14px 18px; border-radius: 10px; margin-bottom: 24px; font-size: 14px; }
+  .hero p { font-size: 17px; color: #999; max-width: 580px; margin: 0 auto; }
+  .content { display: none; }
+  .content.show { display: block; }
   .progress-block { background: #0d0d0d; border: 1px solid #1f1f1f; border-radius: 12px; padding: 18px 20px; margin-bottom: 24px; }
   .progress-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
   .progress-label { font-size: 13px; color: #999; }
   .progress-num { font-family: 'Unbounded', sans-serif; font-size: 22px; font-weight: 700; color: #c6ff00; }
   .progress-bar { height: 6px; background: #000; border-radius: 3px; overflow: hidden; }
   .progress-fill { height: 100%; background: #c6ff00; width: 0%; transition: width 0.25s; }
-  .reset-btn { font-size: 12px; color: #666; background: transparent; border: none; cursor: pointer; padding: 4px 8px; margin-left: 8px; }
-
+  .reset-btn { font-size: 12px; color: #666; background: transparent; border: none; cursor: pointer; margin-left: 8px; }
   .day { background: #0d0d0d; border: 1px solid #1f1f1f; border-radius: 12px; padding: 22px; margin-bottom: 12px; }
   .day-head { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
-  .day-num { background: #c6ff00; color: #000; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; }
+  .day-num { background: #c6ff00; color: #000; font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; }
   .day-title { font-size: 17px; font-weight: 600; }
   .day-sub { font-size: 13px; color: #999; margin-bottom: 16px; }
   .section-head { font-size: 12px; font-weight: 600; color: #999; letter-spacing: 0.04em; text-transform: uppercase; margin: 14px 0 6px; }
@@ -59,54 +37,29 @@
   .task:last-child { border-bottom: none; }
   .check-box { width: 18px; height: 18px; border: 1.5px solid #444; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
   .check-box.on { background: #c6ff00; border-color: #c6ff00; color: #000; font-weight: 700; }
-  .task-text { color: #fff; }
   .task.on .task-text { text-decoration: line-through; color: #666; }
-
   .mistakes { background: rgba(255,255,255,0.04); border: 1px solid #2a2a2a; border-radius: 12px; padding: 22px; margin: 24px 0; }
-  .mistakes-title { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 12px; }
+  .mistakes-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
   .mistake { font-size: 13px; color: #ccc; padding: 6px 0; display: flex; gap: 8px; }
-  .mistake-num { font-weight: 700; flex-shrink: 0; color: #c6ff00; }
-
-  .cta-final { background: #0d0d0d; border: 1px solid #c6ff00; border-radius: 16px; padding: 32px 28px; text-align: center; }
-  .cta-final h3 { font-family: 'Unbounded', sans-serif; font-size: 22px; margin-bottom: 12px; }
-  .cta-final p { color: #999; margin-bottom: 24px; font-size: 15px; }
-  .cta-btn { display: inline-block; background: #c6ff00; color: #000; text-decoration: none; padding: 14px 32px; font-size: 15px; font-weight: 700; border-radius: 10px; }
-  .cta-btn:hover { background: #b8ee00; }
+  .mistake-num { font-weight: 700; color: #c6ff00; flex-shrink: 0; }
   footer { text-align: center; margin-top: 48px; padding-top: 32px; border-top: 1px solid #1f1f1f; font-size: 12px; color: #666; }
 </style>
 </head>
 <body>
-
 <div class="container">
-  <div class="logo">GRUZ<span>APP</span></div>
-
+  <a href="/" style="text-decoration:none; color:inherit;"><div class="logo">GRUZ<span>APP</span></div></a>
   <div class="hero">
     <div class="hero-kicker">План переезда</div>
     <h1>Переезд за 3 дня <span class="accent">без хаоса</span></h1>
-    <p>Конкретные действия по дням. Ставишь галочки — видишь готовность в реальном времени.</p>
+    <p>Конкретные действия по дням с трекером готовности.</p>
   </div>
 
-  <div id="form-block" class="form-block">
-    <h2>Открыть план</h2>
-    <p class="sub">Получишь чек-лист на 3 дня с трекером выполнения.</p>
+  <div id="gate"></div>
 
-    <div id="error-box" class="error-box"></div>
-
-    <form id="lead-form">
-      <div class="form-row"><label>Имя</label><input type="text" id="name" required></div>
-      <div class="form-row"><label>Телефон</label><input type="text" id="contact" required placeholder="+7 (___) ___-__-__"></div>
-      <button type="submit" class="submit-btn" id="submit-btn">Открыть план переезда</button>
-      <div class="privacy">Согласие с обработкой данных.</div>
-    </form>
-
-    <div class="skip-link"><button id="skip-btn">пропустить и посмотреть план</button></div>
-  </div>
-
-  <div id="plan-section" class="plan-section">
-    <div class="success-msg">✓ Открой план, отмечай выполненные пункты.</div>
+  <div id="content" class="content">
     <div class="progress-block">
       <div class="progress-row">
-        <div class="progress-label">Готовность к переезду</div>
+        <div class="progress-label">Готовность</div>
         <div style="display:flex; align-items:center;">
           <div class="progress-num" id="pct">0%</div>
           <button class="reset-btn" id="reset">сбросить</button>
@@ -117,123 +70,65 @@
     <div id="days"></div>
     <div class="mistakes">
       <div class="mistakes-title">Три главные ошибки</div>
-      <div class="mistake"><span class="mistake-num">1.</span><span>Заказывать машину «на глаз» без оценки объёма по фото</span></div>
-      <div class="mistake"><span class="mistake-num">2.</span><span>Подписывать накладную, не осмотрев вещи</span></div>
-      <div class="mistake"><span class="mistake-num">3.</span><span>Не брать прямой номер водителя — только диспетчера</span></div>
+      <div class="mistake"><span class="mistake-num">1.</span>Машину «на глаз» без оценки</div>
+      <div class="mistake"><span class="mistake-num">2.</span>Подписать накладную не осмотрев</div>
+      <div class="mistake"><span class="mistake-num">3.</span>Не взять прямой номер водителя</div>
     </div>
-    <div class="cta-final">
-      <h3>Хочешь переезд по этому плану?</h3>
-      <p>В GRUZAPP — расчёт по фото, фиксированная цена, прямой контакт водителя.</p>
-      <a href="https://wa.me/79991234567?text=Хочу%20расчёт%20переезда" class="cta-btn">Получить расчёт</a>
-    </div>
+    <div id="cta"></div>
   </div>
 
-  <footer>GRUZAPP — переезды без сюрпризов<br>© 2025</footer>
+  <footer>GRUZAPP · © 2025</footer>
 </div>
 
-<script type="module">
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-const SUPABASE_URL = 'https://htftklrysatwhqznbtty.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_8GinUKWP4PAEdCOvgKhb0w_8jK8Kny5';
-
-const errorBox = document.getElementById('error-box');
-const submitBtn = document.getElementById('submit-btn');
-function showError(t, d) { errorBox.innerHTML = `<strong>${t}</strong>${d}`; errorBox.classList.add('show'); }
-function hideError() { errorBox.classList.remove('show'); }
-function showPlan() {
-  document.getElementById('form-block').style.display = 'none';
-  document.getElementById('plan-section').classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-document.getElementById('skip-btn').addEventListener('click', showPlan);
-
-const keysOk = SUPABASE_URL !== 'YOUR_SUPABASE_URL' && SUPABASE_ANON_KEY !== 'YOUR_SUPABASE_ANON_KEY' && SUPABASE_URL.startsWith('https://');
-let supabase = null;
-if (keysOk) {
-  try { supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY); } catch (e) { showError('Ошибка', e.message); }
-} else {
-  showError('Не вставлены ключи Supabase', 'Замени ключи в файле. Пока — жми «пропустить».');
-}
-
-function getUtm() {
-  const p = new URLSearchParams(window.location.search);
-  return { utm_source: p.get('utm_source') || null, utm_medium: p.get('utm_medium') || null, utm_campaign: p.get('utm_campaign') || null, referrer: document.referrer || null };
-}
-
-document.getElementById('lead-form').addEventListener('submit', async (e) => {
-  e.preventDefault(); hideError();
-  const name = document.getElementById('name').value.trim();
-  const contact = document.getElementById('contact').value.trim();
-  if (!name || !contact) { showError('Заполни оба поля', ''); return; }
-  if (!supabase) { showError('Supabase не подключён', 'Проверь ключи.'); return; }
-  submitBtn.disabled = true; submitBtn.textContent = 'Отправляем...';
-  try {
-    const { error } = await supabase.from('leads').insert({ name, contact, source: 'moving', segment: 'private', status: 'new', utm: getUtm() });
-    if (error) {
-      let h = error.message;
-      const m = (error.message || '').toLowerCase();
-      if (m.includes('row-level') || m.includes('policy')) h += '<br><br><code>ALTER TABLE leads ENABLE ROW LEVEL SECURITY; CREATE POLICY "Allow public insert" ON leads FOR INSERT TO anon WITH CHECK (true);</code>';
-      if (m.includes('column') || m.includes('does not exist')) h += '<br><br>Проверь колонки: name, contact, source, segment, status, utm.';
-      throw new Error(h);
-    }
-    showPlan();
-  } catch (err) {
-    showError('Не удалось отправить', err.message);
-    submitBtn.disabled = false; submitBtn.textContent = 'Попробовать снова';
-  }
-});
-
+<script src="app.js"></script>
+<script>
 const plan = [
-  { label: "За 3 дня", title: "Подготовка", sub: "Решаешь что везёшь, заказываешь машину", sections: [
-    { head: "Вещи", tasks: ["Пройти по всем комнатам: везём / выбрасываем / отдаём", "Список крупной мебели для разборки", "Сфотографировать вещи для оценки объёма"] },
-    { head: "Документы", tasks: ["Найти документы на технику", "Подготовить договор с новым жильём"] },
-    { head: "Перевозчик", tasks: ["Заказать машину и грузчиков", "Уточнить: фиксируют ли состояние вещей до погрузки", "Получить прямой номер водителя"] }
+  { label: "За 3 дня", title: "Подготовка", sub: "Что везём, что выбрасываем, кто повезёт", sections: [
+    { head: "Вещи", tasks: ["Пройти комнаты: везём / выбрасываем / отдаём", "Список мебели для разборки", "Фото вещей для оценки объёма"] },
+    { head: "Документы", tasks: ["Документы на технику", "Договор с новым жильём"] },
+    { head: "Перевозчик", tasks: ["Заказать машину + грузчиков", "Фиксируют ли состояние вещей?", "Прямой номер водителя"] }
   ]},
-  { label: "За 1 день", title: "Сборы", sub: "Упаковываешь, подтверждаешь, готовишь обе квартиры", sections: [
-    { head: "Упаковка", tasks: ["Упаковать всё кроме того, что нужно до утра", "Подписать каждую коробку: комната + содержимое + хрупкое", "Тяжёлые вещи — в маленькие коробки", "Технику упаковать отдельно с пузырчатой плёнкой"] },
-    { head: "Логистика", tasks: ["Подтвердить время приезда машины", "Уточнить парковку у нового дома", "Предупредить соседей в обоих домах"] },
-    { head: "Документы", tasks: ["Сфотографировать показания счётчиков", "Подготовить комплекты ключей"] }
+  { label: "За 1 день", title: "Сборы", sub: "Упаковка, подтверждение, обе квартиры", sections: [
+    { head: "Упаковка", tasks: ["Упаковать всё кроме нужного утром", "Подписать коробки", "Тяжёлое — в маленькие коробки", "Технику — с плёнкой"] },
+    { head: "Логистика", tasks: ["Подтвердить время", "Парковка у нового дома", "Предупредить соседей"] },
+    { head: "Документы", tasks: ["Фото счётчиков", "Ключи"] }
   ]},
-  { label: "День переезда", title: "Перевозка", sub: "Действуй по чек-листу, не на эмоциях", sections: [
-    { head: "Утро", tasks: ["Освободить проходы во всех комнатах", "Снять со стен зеркала и картины", "Разобрать мебель"] },
-    { head: "Приезд команды", tasks: ["Показать план: что грузим первым", "Сделать фото вещей до погрузки", "Убедиться что водитель знает адрес"] },
-    { head: "На новом месте", tasks: ["Осмотреть вещи ДО подписи накладной", "Сначала крупная мебель, потом коробки", "Сфотографировать показания счётчиков"] }
+  { label: "День X", title: "Перевозка", sub: "По чек-листу, не на эмоциях", sections: [
+    { head: "Утро", tasks: ["Освободить проходы", "Снять зеркала", "Разобрать мебель"] },
+    { head: "Команда", tasks: ["Что грузим первым", "Фото до погрузки", "Водитель знает адрес"] },
+    { head: "Новое место", tasks: ["Осмотр ДО подписи", "Мебель → коробки", "Фото счётчиков"] }
   ]}
 ];
 const state = {};
 
+function showContent() {
+  document.getElementById('content').classList.add('show');
+  renderPlan();
+  GRUZAPP.renderCTA('cta', 'moving', 'Переезд по этому плану?', 'Расчёт по фото, фиксированная цена, прямой контакт водителя.');
+}
+
 function renderPlan() {
-  document.getElementById('days').innerHTML = plan.map((day, di) => `
-    <div class="day">
-      <div class="day-head"><div class="day-num">${day.label}</div><div class="day-title">${day.title}</div></div>
-      <div class="day-sub">${day.sub}</div>
-      ${day.sections.map((sec, si) => `
-        <div class="section-head">${sec.head}</div>
-        ${sec.tasks.map((t, ti) => {
-          const id = `${di}-${si}-${ti}`;
-          const on = state[id] ? 'on' : '';
-          return `<div class="task ${on}" data-id="${id}"><div class="check-box ${on}">${state[id] ? '✓' : ''}</div><div class="task-text">${t}</div></div>`;
-        }).join('')}
-      `).join('')}
+  document.getElementById('days').innerHTML = plan.map((d, di) => `
+    <div class="day"><div class="day-head"><div class="day-num">${d.label}</div><div class="day-title">${d.title}</div></div>
+    <div class="day-sub">${d.sub}</div>
+    ${d.sections.map((s, si) => `<div class="section-head">${s.head}</div>
+    ${s.tasks.map((t, ti) => { const id=`${di}-${si}-${ti}`; const on=state[id]?'on':'';
+    return `<div class="task ${on}" data-id="${id}"><div class="check-box ${on}">${state[id]?'✓':''}</div><div class="task-text">${t}</div></div>`; }).join('')}`).join('')}
     </div>`).join('');
-  document.querySelectorAll('.task').forEach(t => t.addEventListener('click', () => { state[t.dataset.id] = !state[t.dataset.id]; renderPlan(); updateProgress(); }));
+  document.querySelectorAll('.task').forEach(t => t.addEventListener('click', () => { state[t.dataset.id] = !state[t.dataset.id]; renderPlan(); upd(); }));
 }
 
-function updateProgress() {
-  let total = 0;
-  plan.forEach(d => d.sections.forEach(s => total += s.tasks.length));
-  const done = Object.values(state).filter(Boolean).length;
-  const pct = total > 0 ? Math.round(done / total * 100) : 0;
-  document.getElementById('pct').textContent = pct + '%';
-  document.getElementById('fill').style.width = pct + '%';
+function upd() {
+  let tot=0; plan.forEach(d=>d.sections.forEach(s=>tot+=s.tasks.length));
+  const done=Object.values(state).filter(Boolean).length;
+  const p=tot>0?Math.round(done/tot*100):0;
+  document.getElementById('pct').textContent=p+'%';
+  document.getElementById('fill').style.width=p+'%';
 }
 
-document.getElementById('reset').addEventListener('click', () => {
-  Object.keys(state).forEach(k => delete state[k]);
-  renderPlan(); updateProgress();
-});
+document.getElementById('reset').addEventListener('click', () => { Object.keys(state).forEach(k=>delete state[k]); renderPlan(); upd(); });
 
-renderPlan(); updateProgress();
+window.addEventListener('DOMContentLoaded', () => GRUZAPP.renderGate('gate', 'moving', showContent));
 </script>
 </body>
 </html>
