@@ -8,7 +8,7 @@
 const SUPABASE_URL = 'https://htftklrysatwhqznbtty.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_8GinUKWP4PAEdCOvgKhb0w_8jK8Kny5';
   var TG_LINK = 'https://t.me/GruzAppAdmin';
-  var MAX_LINK = 'https://max.ru/u/f9LHodD0cOJ2neNnXNioAOftxFKf0F_S6uJDQ6RLYnJ0-DJeneqHt-KmHLA';
+  var MAX_LINK = 'https://max.ru/id7000013468_2_bot';
 
   // -------- ПОЛЬЗОВАТЕЛЬ (localStorage) --------
   function getUser() {
