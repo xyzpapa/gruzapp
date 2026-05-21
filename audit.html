@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Аудит перевозчика за 2 минуты | GRUZAPP</title>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Inter:wght@400;500;600&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #000; color: #fff; line-height: 1.6; }
+  .container { max-width: 720px; margin: 0 auto; padding: 24px 20px 60px; }
+  .logo { font-family: 'Unbounded', sans-serif; font-size: 18px; font-weight: 900; margin-bottom: 48px; }
+  .logo span { color: #c6ff00; }
+  .hero { padding: 32px 0 48px; text-align: center; }
+  .hero-kicker { display: inline-block; background: rgba(198,255,0,0.12); color: #c6ff00; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 20px; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .hero h1 { font-family: 'Unbounded', sans-serif; font-size: clamp(28px, 5vw, 42px); font-weight: 700; line-height: 1.15; margin-bottom: 20px; }
+  .hero h1 .accent { color: #c6ff00; }
+  .hero p { font-size: 17px; color: #999; max-width: 580px; margin: 0 auto 32px; }
+  .form-block { background: #0d0d0d; border: 1px solid #1f1f1f; border-radius: 16px; padding: 32px 28px; margin-bottom: 32px; }
+  .form-block h2 { font-family: 'Unbounded', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  .form-block .sub { color: #999; font-size: 14px; margin-bottom: 24px; }
+  .form-row { margin-bottom: 14px; }
+  .form-row label { display: block; font-size: 13px; color: #999; margin-bottom: 6px; }
+  .form-row input { width: 100%; background: #000; border: 1px solid #2a2a2a; color: #fff; padding: 14px 16px; font-size: 15px; font-family: inherit; border-radius: 10px; outline: none; }
+  .form-row input:focus { border-color: #c6ff00; }
+  .submit-btn { width: 100%; background: #c6ff00; color: #000; border: none; padding: 16px 24px; font-size: 16px; font-weight: 700; font-family: inherit; border-radius: 10px; cursor: pointer; margin-top: 8px; }
+  .submit-btn:hover { background: #b8ee00; }
+  .submit-btn:disabled { background: #2a2a2a; color: #666; cursor: not-allowed; }
+  .privacy { text-align: center; font-size: 12px; color: #666; margin-top: 14px; }
+
+  .error-box { background: rgba(255,80,80,0.08); border: 1px solid rgba(255,80,80,0.4); color: #ff9999; padding: 14px 18px; border-radius: 10px; margin-bottom: 16px; font-size: 13px; line-height: 1.6; display: none; }
+  .error-box.show { display: block; }
+  .error-box strong { color: #ff6666; display: block; margin-bottom: 6px; }
+  .error-box code { font-family: monospace; font-size: 11px; background: rgba(0,0,0,0.5); padding: 2px 6px; border-radius: 4px; word-break: break-all; color: #c6ff00; }
+
+  .skip-link { text-align: center; margin-top: 12px; }
+  .skip-link button { background: transparent; border: none; color: #666; font-size: 12px; cursor: pointer; text-decoration: underline; font-family: inherit; }
+
+  .audit-section { display: none; }
+  .audit-section.active { display: block; }
+  .success-msg { background: rgba(198,255,0,0.1); border: 1px solid rgba(198,255,0,0.3); color: #c6ff00; padding: 14px 18px; border-radius: 10px; margin-bottom: 24px; font-size: 14px; }
+  .progress-bar { height: 6px; background: #1f1f1f; border-radius: 3px; overflow: hidden; margin-bottom: 24px; }
+  .progress-fill { height: 100%; background: #c6ff00; width: 0%; transition: width 0.25s; }
+  .q-card { background: #0d0d0d; border: 1px solid #1f1f1f; border-radius: 12px; padding: 18px 20px; margin-bottom: 12px; }
+  .q-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+  .q-num { width: 26px; height: 26px; background: #c6ff00; color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+  .q-text { font-size: 14px; font-weight: 600; line-height: 1.5; }
+  .answers { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+  .ans-btn { padding: 10px 14px; font-size: 13px; font-weight: 500; border-radius: 8px; border: 1px solid #2a2a2a; background: transparent; color: #999; cursor: pointer; text-align: left; font-family: inherit; transition: all 0.15s; }
+  .ans-btn:hover { border-color: #444; color: #fff; }
+  .ans-btn.sel-good { background: #c6ff00; border-color: #c6ff00; color: #000; font-weight: 600; }
+  .ans-btn.sel-mid { background: rgba(255,255,255,0.08); border-color: #fff; color: #fff; font-weight: 600; }
+  .ans-btn.sel-bad { background: rgba(255,80,80,0.1); border-color: #ff6666; color: #ff9999; font-weight: 600; }
+  .flag { font-size: 12px; color: #666; padding-left: 38px; }
+
+  .result { border-radius: 16px; padding: 28px; text-align: center; margin: 24px 0; }
+  .result.good { background: #c6ff00; color: #000; }
+  .result.mid { background: #fff; color: #000; }
+  .result.bad { background: #0d0d0d; border: 1px solid #ff6666; color: #ff9999; }
+  .result-label { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; opacity: 0.7; }
+  .result-score { font-family: 'Unbounded', sans-serif; font-size: 42px; font-weight: 900; line-height: 1.1; }
+  .result-text { font-size: 14px; line-height: 1.6; margin-top: 12px; opacity: 0.85; }
+
+  .cta-final { background: #0d0d0d; border: 1px solid #c6ff00; border-radius: 16px; padding: 32px 28px; text-align: center; margin-top: 24px; }
+  .cta-final h3 { font-family: 'Unbounded', sans-serif; font-size: 22px; margin-bottom: 12px; }
+  .cta-final p { color: #999; margin-bottom: 24px; font-size: 15px; }
+  .cta-btn { display: inline-block; background: #c6ff00; color: #000; text-decoration: none; padding: 14px 32px; font-size: 15px; font-weight: 700; border-radius: 10px; }
+  .cta-btn:hover { background: #b8ee00; }
+  footer { text-align: center; margin-top: 48px; padding-top: 32px; border-top: 1px solid #1f1f1f; font-size: 12px; color: #666; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="logo">GRUZ<span>APP</span></div>
+
+  <div class="hero">
+    <div class="hero-kicker">Аудит за 2 минуты</div>
+    <h1>Проверь свою службу <span class="accent">доставки</span> прямо сейчас</h1>
+    <p>7 вопросов своей логистической компании — и ты знаешь, в зелёной ты зоне, жёлтой или красной.</p>
+  </div>
+
+  <div id="form-block" class="form-block">
+    <h2>Начать проверку</h2>
+    <p class="sub">Ответишь на 7 вопросов — получишь чёткий результат с расшифровкой.</p>
+
+    <div id="error-box" class="error-box"></div>
+
+    <form id="lead-form">
+      <div class="form-row"><label>Имя</label><input type="text" id="name" required placeholder="Как к тебе обращаться"></div>
+      <div class="form-row"><label>Телефон или email</label><input type="text" id="contact" required placeholder="+7 (___) ___-__-__"></div>
+      <button type="submit" class="submit-btn" id="submit-btn">Начать аудит</button>
+      <div class="privacy">Согласие с обработкой данных.</div>
+    </form>
+
+    <div class="skip-link"><button id="skip-btn">пропустить и пройти аудит</button></div>
+  </div>
+
+  <div id="audit-section" class="audit-section">
+    <div class="success-msg">✓ Отвечай на вопросы — внизу увидишь результат.</div>
+    <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+    <div id="questions"></div>
+    <div class="result" id="result" style="display:none;">
+      <div class="result-label" id="r-label"></div>
+      <div class="result-score" id="r-score"></div>
+      <div class="result-text" id="r-text"></div>
+    </div>
+    <div class="cta-final" id="cta-final" style="display:none;">
+      <h3>Хочешь сравнить с тем, как должно быть?</h3>
+      <p>В GRUZAPP все 7 пунктов в стандарте. Тариф и условия — за 15 минут.</p>
+      <a href="https://wa.me/79991234567?text=Хочу%20расчёт%20доставки" class="cta-btn">Написать в WhatsApp</a>
+    </div>
+  </div>
+
+  <footer>GRUZAPP — грузоперевозки без субподряда<br>© 2025</footer>
+</div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+const SUPABASE_URL = 'https://htftklrysatwhqznbtty.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_8GinUKWP4PAEdCOvgKhb0w_8jK8Kny5';
+
+const errorBox = document.getElementById('error-box');
+const submitBtn = document.getElementById('submit-btn');
+function showError(t, d) { errorBox.innerHTML = `<strong>${t}</strong>${d}`; errorBox.classList.add('show'); }
+function hideError() { errorBox.classList.remove('show'); }
+function showAudit() {
+  document.getElementById('form-block').style.display = 'none';
+  document.getElementById('audit-section').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+document.getElementById('skip-btn').addEventListener('click', showAudit);
+
+const keysOk = SUPABASE_URL !== 'YOUR_SUPABASE_URL' && SUPABASE_ANON_KEY !== 'YOUR_SUPABASE_ANON_KEY' && SUPABASE_URL.startsWith('https://');
+let supabase = null;
+if (keysOk) {
+  try { supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY); } catch (e) { showError('Ошибка подключения', e.message); }
+} else {
+  showError('Не вставлены ключи Supabase', 'Замени <code>YOUR_SUPABASE_URL</code> и <code>YOUR_SUPABASE_ANON_KEY</code> в самом низу файла. Пока — нажми «пропустить».');
+}
+
+function getUtm() {
+  const p = new URLSearchParams(window.location.search);
+  return { utm_source: p.get('utm_source') || null, utm_medium: p.get('utm_medium') || null, utm_campaign: p.get('utm_campaign') || null, referrer: document.referrer || null };
+}
+
+document.getElementById('lead-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  hideError();
+  const name = document.getElementById('name').value.trim();
+  const contact = document.getElementById('contact').value.trim();
+  if (!name || !contact) { showError('Заполни оба поля', ''); return; }
+  if (!supabase) { showError('Supabase не подключён', 'Проверь ключи.'); return; }
+  submitBtn.disabled = true; submitBtn.textContent = 'Отправляем...';
+  try {
+    const { error } = await supabase.from('leads').insert({ name, contact, source: 'audit', segment: 'b2b', status: 'new', utm: getUtm() });
+    if (error) {
+      let h = error.message;
+      const m = (error.message || '').toLowerCase();
+      if (m.includes('row-level') || m.includes('policy') || m.includes('rls')) h += '<br><br>Выполни: <code>ALTER TABLE leads ENABLE ROW LEVEL SECURITY; CREATE POLICY "Allow public insert" ON leads FOR INSERT TO anon WITH CHECK (true);</code>';
+      if (m.includes('column') || m.includes('does not exist')) h += '<br><br>Проверь колонки в таблице leads: name, contact, source, segment, status, utm.';
+      throw new Error(h);
+    }
+    showAudit();
+  } catch (err) {
+    showError('Не удалось отправить', err.message);
+    submitBtn.disabled = false; submitBtn.textContent = 'Попробовать снова';
+    console.error(err);
+  }
+});
+
+const Q = [
+  { q: "Как формируется итоговая цена?", good: "Фиксируется до рейса после оценки объёма", mid: "В целом по тарифу, плюс возможные доплаты", bad: "Зависит от ситуации, смотрим на месте", flag: "Красный флаг: «по факту», «зависит»" },
+  { q: "Кто конкретно приедет — ваши или субподряд?", good: "Наши верифицированные водители", mid: "В основном свои, иногда привлекаем", bad: "Найдём команду / зависит от дня", flag: "Уклончивость = риск" },
+  { q: "Делаете ли фото груза до погрузки?", good: "Да, это наш стандарт", mid: "Если попросите — можем", bad: "Обычно не делаем", flag: "Без фото ДО — не докажешь повреждение" },
+  { q: "Реальная страховка с выплатами?", good: "Да, конкретные суммы и условия", mid: "Страховка есть, условия уточним", bad: "«Всё застраховано» без деталей", flag: "«Есть» ≠ «реально выплатят»" },
+  { q: "Как считаете грузчиков и машины?", good: "По фото или подробному списку", mid: "По описанию по телефону", bad: "Обычно хватает одной машины", flag: "Расчёт на слух = переплата" },
+  { q: "Работаете в выходные и вечером?", good: "Да, без коэффициентов", mid: "Работаем, но с наценкой", bad: "Только будни, только день", flag: "Сервис должен подстраиваться" },
+  { q: "Что если повредят груз?", good: "Конкретный алгоритм и сроки", mid: "Подадите претензию — рассмотрим", bad: "«Такого не бывает»", flag: "Без алгоритма — без компенсации" }
+];
+const answers = new Array(7).fill(null);
+
+function render() {
+  document.getElementById('questions').innerHTML = Q.map((q, i) => `
+    <div class="q-card">
+      <div class="q-head"><div class="q-num">${i+1}</div><div class="q-text">${q.q}</div></div>
+      <div class="answers">
+        <button class="ans-btn" data-i="${i}" data-v="good">${q.good}</button>
+        <button class="ans-btn" data-i="${i}" data-v="mid">${q.mid}</button>
+        <button class="ans-btn" data-i="${i}" data-v="bad">${q.bad}</button>
+      </div>
+      <div class="flag">⚑ ${q.flag}</div>
+    </div>`).join('');
+  document.querySelectorAll('.ans-btn').forEach(b => b.addEventListener('click', () => {
+    const i = +b.dataset.i, v = b.dataset.v;
+    answers[i] = v;
+    document.querySelectorAll(`.ans-btn[data-i="${i}"]`).forEach(x => x.classList.remove('sel-good','sel-mid','sel-bad'));
+    b.classList.add('sel-' + v);
+    update();
+  }));
+}
+
+function update() {
+  const a = answers.filter(x => x !== null).length;
+  document.getElementById('prog').style.width = (a / 7 * 100) + '%';
+  if (a < 7) { document.getElementById('result').style.display='none'; document.getElementById('cta-final').style.display='none'; return; }
+  let s = 0; answers.forEach(x => { if (x === 'good') s += 2; else if (x === 'mid') s += 1; });
+  const r = document.getElementById('result');
+  r.style.display = 'block';
+  r.classList.remove('good','mid','bad');
+  document.getElementById('r-score').textContent = s + ' / 14';
+  if (s >= 11) { r.classList.add('good'); document.getElementById('r-label').textContent = 'Зелёная зона'; document.getElementById('r-text').textContent = 'Эта служба соответствует базовым стандартам. Но фото "до", страховка и алгоритм при повреждении — три пункта, без которых не работай.'; }
+  else if (s >= 7) { r.classList.add('mid'); document.getElementById('r-label').textContent = 'Жёлтая зона'; document.getElementById('r-text').textContent = 'У службы есть слабые места. Перед каждым рейсом фиксируй состояние груза сам и держи прямой номер водителя.'; }
+  else { r.classList.add('bad'); document.getElementById('r-label').textContent = 'Красная зона'; document.getElementById('r-text').textContent = 'Эта служба не защищает тебя. Ищи альтернативу до первого инцидента.'; }
+  document.getElementById('cta-final').style.display = 'block';
+}
+render();
+</script>
+</body>
+</html>

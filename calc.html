@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Калькулятор потерь от плохой доставки | GRUZAPP</title>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Inter:wght@400;500;600&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #000; color: #fff; line-height: 1.6; min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 24px 20px 60px; }
+  .logo { font-family: 'Unbounded', sans-serif; font-size: 18px; font-weight: 900; margin-bottom: 48px; }
+  .logo span { color: #c6ff00; }
+  .hero { padding: 32px 0 48px; text-align: center; }
+  .hero-kicker { display: inline-block; background: rgba(198,255,0,0.12); color: #c6ff00; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 20px; margin-bottom: 24px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .hero h1 { font-family: 'Unbounded', sans-serif; font-size: clamp(28px, 5vw, 42px); font-weight: 700; line-height: 1.15; margin-bottom: 20px; }
+  .hero h1 .accent { color: #c6ff00; }
+  .hero p { font-size: 17px; color: #999; max-width: 580px; margin: 0 auto 32px; }
+  .form-block { background: #0d0d0d; border: 1px solid #1f1f1f; border-radius: 16px; padding: 32px 28px; margin-bottom: 32px; }
+  .form-block h2 { font-family: 'Unbounded', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  .form-block .sub { color: #999; font-size: 14px; margin-bottom: 24px; }
+  .form-row { margin-bottom: 14px; }
+  .form-row label { display: block; font-size: 13px; color: #999; margin-bottom: 6px; }
+  .form-row input { width: 100%; background: #000; border: 1px solid #2a2a2a; color: #fff; padding: 14px 16px; font-size: 15px; font-family: inherit; border-radius: 10px; outline: none; transition: border-color 0.15s; }
+  .form-row input:focus { border-color: #c6ff00; }
+  .submit-btn { width: 100%; background: #c6ff00; color: #000; border: none; padding: 16px 24px; font-size: 16px; font-weight: 700; font-family: inherit; border-radius: 10px; cursor: pointer; margin-top: 8px; transition: background 0.15s; }
+  .submit-btn:hover { background: #b8ee00; }
+  .submit-btn:disabled { background: #2a2a2a; color: #666; cursor: not-allowed; }
+  .privacy { text-align: center; font-size: 12px; color: #666; margin-top: 14px; }
+
+  .error-box { background: rgba(255,80,80,0.08); border: 1px solid rgba(255,80,80,0.4); color: #ff9999; padding: 14px 18px; border-radius: 10px; margin-bottom: 16px; font-size: 13px; line-height: 1.6; display: none; }
+  .error-box.show { display: block; }
+  .error-box strong { color: #ff6666; display: block; margin-bottom: 6px; font-size: 14px; }
+  .error-box code { font-family: monospace; font-size: 11px; background: rgba(0,0,0,0.5); padding: 2px 6px; border-radius: 4px; word-break: break-all; color: #c6ff00; }
+
+  .calc-section { display: none; }
+  .calc-section.active { display: block; }
+  .success-msg { background: rgba(198,255,0,0.1); border: 1px solid rgba(198,255,0,0.3); color: #c6ff00; padding: 14px 18px; border-radius: 10px; margin-bottom: 24px; font-size: 14px; }
+  .block { background: #0d0d0d; border: 1px solid #1f1f1f; border-radius: 12px; padding: 18px 20px; margin-bottom: 12px; }
+  .block-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .block-num { width: 24px; height: 24px; background: #c6ff00; color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+  .block-title { font-size: 14px; font-weight: 600; }
+  .row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .row:last-child { margin-bottom: 0; }
+  .row-label { flex: 1; font-size: 13px; color: #999; min-width: 180px; }
+  .row-input { width: 120px; }
+  .row-input input { width: 100%; background: #000; border: 1px solid #2a2a2a; color: #fff; padding: 8px 12px; font-size: 14px; text-align: right; border-radius: 6px; outline: none; font-variant-numeric: tabular-nums; }
+  .row-input input:focus { border-color: #c6ff00; }
+  .row-out { font-size: 13px; color: #888; width: 110px; text-align: right; font-variant-numeric: tabular-nums; }
+  .summary { background: #c6ff00; border-radius: 16px; padding: 28px; margin: 24px 0; text-align: center; }
+  .summary-label { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(0,0,0,0.7); margin-bottom: 10px; }
+  .summary-main { font-family: 'Unbounded', sans-serif; font-size: clamp(36px, 7vw, 52px); font-weight: 900; color: #000; font-variant-numeric: tabular-nums; line-height: 1.05; }
+  .summary-year { font-size: 14px; color: rgba(0,0,0,0.7); margin-top: 8px; font-weight: 500; }
+  .cta-final { background: #0d0d0d; border: 1px solid #c6ff00; border-radius: 16px; padding: 32px 28px; text-align: center; margin-top: 32px; }
+  .cta-final h3 { font-family: 'Unbounded', sans-serif; font-size: 22px; margin-bottom: 12px; }
+  .cta-final p { color: #999; margin-bottom: 24px; font-size: 15px; }
+  .cta-btn { display: inline-block; background: #c6ff00; color: #000; text-decoration: none; padding: 14px 32px; font-size: 15px; font-weight: 700; border-radius: 10px; transition: background 0.15s; }
+  .cta-btn:hover { background: #b8ee00; }
+  footer { text-align: center; margin-top: 48px; padding-top: 32px; border-top: 1px solid #1f1f1f; font-size: 12px; color: #666; }
+
+  .skip-link { text-align: center; margin-top: 12px; }
+  .skip-link button { background: transparent; border: none; color: #666; font-size: 12px; cursor: pointer; text-decoration: underline; font-family: inherit; }
+  .skip-link button:hover { color: #c6ff00; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="logo">GRUZ<span>APP</span></div>
+
+  <div class="hero">
+    <div class="hero-kicker">Калькулятор для бизнеса</div>
+    <h1>Сколько ты теряешь<br>на <span class="accent">плохой доставке</span> каждый месяц?</h1>
+    <p>Заполни 5 полей — увидишь реальные потери.</p>
+  </div>
+
+  <div id="form-block" class="form-block">
+    <h2>Получи доступ к калькулятору</h2>
+    <p class="sub">Один клик — и увидишь полные расчёты.</p>
+
+    <div id="error-box" class="error-box"></div>
+
+    <form id="lead-form">
+      <div class="form-row">
+        <label>Имя</label>
+        <input type="text" id="name" required placeholder="Как к тебе обращаться">
+      </div>
+      <div class="form-row">
+        <label>Телефон или email</label>
+        <input type="text" id="contact" required placeholder="+7 (___) ___-__-__ или email">
+      </div>
+      <button type="submit" class="submit-btn" id="submit-btn">Открыть калькулятор</button>
+      <div class="privacy">Нажимая кнопку — соглашаешься с обработкой данных.</div>
+    </form>
+
+    <div class="skip-link">
+      <button id="skip-btn">пропустить и посмотреть калькулятор</button>
+    </div>
+  </div>
+
+  <div id="calc-section" class="calc-section">
+    <div class="success-msg">✓ Доступ открыт. Меняй значения и смотри расчёт.</div>
+
+    <div class="block">
+      <div class="block-head"><div class="block-num">1</div><div class="block-title">Повреждённые отправления</div></div>
+      <div class="row"><div class="row-label">Повреждений в месяц</div><div class="row-input"><input type="number" id="dmg-count" value="5" min="0"></div></div>
+      <div class="row"><div class="row-label">Средняя стоимость товара, ₽</div><div class="row-input"><input type="number" id="dmg-price" value="3000" min="0"></div></div>
+      <div class="row"><div class="row-label">Потери в месяц</div><div class="row-out" id="out-1">15 000 ₽</div></div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><div class="block-num">2</div><div class="block-title">Отмены из-за опозданий</div></div>
+      <div class="row"><div class="row-label">Опозданий в месяц</div><div class="row-input"><input type="number" id="late-count" value="20" min="0"></div></div>
+      <div class="row"><div class="row-label">% отмен после опоздания</div><div class="row-input"><input type="number" id="late-pct" value="15" min="0" max="100"></div></div>
+      <div class="row"><div class="row-label">Средний чек, ₽</div><div class="row-input"><input type="number" id="late-aov" value="3000" min="0"></div></div>
+      <div class="row"><div class="row-label">Потери в месяц</div><div class="row-out" id="out-2">9 000 ₽</div></div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><div class="block-num">3</div><div class="block-title">Негативные отзывы</div></div>
+      <div class="row"><div class="row-label">Негативных отзывов</div><div class="row-input"><input type="number" id="rev-count" value="8" min="0"></div></div>
+      <div class="row"><div class="row-label">Средний чек, ₽</div><div class="row-input"><input type="number" id="rev-aov" value="3000" min="0"></div></div>
+      <div class="row"><div class="row-label">Потери в месяц</div><div class="row-out" id="out-3">72 000 ₽</div></div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><div class="block-num">4</div><div class="block-title">Время сотрудников</div></div>
+      <div class="row"><div class="row-label">Часов в неделю на проблемы</div><div class="row-input"><input type="number" id="time-hrs" value="6" min="0"></div></div>
+      <div class="row"><div class="row-label">Стоимость часа, ₽</div><div class="row-input"><input type="number" id="time-rate" value="500" min="0"></div></div>
+      <div class="row"><div class="row-label">Потери в месяц</div><div class="row-out" id="out-4">12 000 ₽</div></div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><div class="block-num">5</div><div class="block-title">Возвраты</div></div>
+      <div class="row"><div class="row-label">Возвратов в месяц</div><div class="row-input"><input type="number" id="ret-count" value="6" min="0"></div></div>
+      <div class="row"><div class="row-label">Стоимость возврата, ₽</div><div class="row-input"><input type="number" id="ret-cost" value="400" min="0"></div></div>
+      <div class="row"><div class="row-label">Потери в месяц</div><div class="row-out" id="out-5">2 400 ₽</div></div>
+    </div>
+
+    <div class="summary">
+      <div class="summary-label">Итого скрытых потерь в месяц</div>
+      <div class="summary-main" id="total">110 400 ₽</div>
+      <div class="summary-year" id="year">за год: 1 324 800 ₽</div>
+    </div>
+
+    <div class="cta-final">
+      <h3>Видишь сумму выше?</h3>
+      <p>В GRUZAPP мы покажем, как закрыть эти потери. Расчёт за 15 минут.</p>
+      <a href="https://wa.me/79991234567?text=Хочу%20расчёт%20доставки" class="cta-btn">Получить расчёт</a>
+    </div>
+  </div>
+
+  <footer>GRUZAPP — грузоперевозки без субподряда<br>© 2025</footer>
+</div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+const SUPABASE_URL = 'https://htftklrysatwhqznbtty.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_8GinUKWP4PAEdCOvgKhb0w_8jK8Kny5';
+
+const errorBox = document.getElementById('error-box');
+const submitBtn = document.getElementById('submit-btn');
+
+function showError(title, details) {
+  errorBox.innerHTML = `<strong>${title}</strong>${details}`;
+  errorBox.classList.add('show');
+}
+function hideError() { errorBox.classList.remove('show'); }
+function showCalc() {
+  document.getElementById('form-block').style.display = 'none';
+  document.getElementById('calc-section').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.getElementById('skip-btn').addEventListener('click', showCalc);
+
+const keysOk = SUPABASE_URL !== 'YOUR_SUPABASE_URL' && SUPABASE_ANON_KEY !== 'YOUR_SUPABASE_ANON_KEY' && SUPABASE_URL.startsWith('https://');
+
+let supabase = null;
+if (keysOk) {
+  try { supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY); }
+  catch (e) { showError('Ошибка подключения', e.message); }
+} else {
+  showError(
+    'Не вставлены ключи Supabase',
+    'Открой этот HTML-файл в редакторе. В самом низу найди <code>YOUR_SUPABASE_URL</code> и <code>YOUR_SUPABASE_ANON_KEY</code>. Замени их на свои значения из Supabase → Settings → API. Пока — нажми «пропустить» и посмотри калькулятор.'
+  );
+}
+
+function getUtm() {
+  const p = new URLSearchParams(window.location.search);
+  return {
+    utm_source: p.get('utm_source') || null,
+    utm_medium: p.get('utm_medium') || null,
+    utm_campaign: p.get('utm_campaign') || null,
+    referrer: document.referrer || null
+  };
+}
+
+document.getElementById('lead-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  hideError();
+
+  const name = document.getElementById('name').value.trim();
+  const contact = document.getElementById('contact').value.trim();
+  if (!name || !contact) { showError('Заполни оба поля', 'Имя и контакт обязательны.'); return; }
+  if (!supabase) { showError('Supabase не подключён', 'Проверь ключи в файле.'); return; }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Отправляем...';
+
+  try {
+    const { error } = await supabase.from('leads').insert({
+      name, contact, source: 'calc', segment: 'shop', status: 'new', utm: getUtm()
+    });
+
+    if (error) {
+      let helpText = error.message;
+      const msg = (error.message || '').toLowerCase();
+      if (msg.includes('row-level') || msg.includes('policy') || msg.includes('rls')) {
+        helpText += '<br><br>Выполни в Supabase SQL Editor:<br><code>ALTER TABLE leads ENABLE ROW LEVEL SECURITY; CREATE POLICY "Allow public insert" ON leads FOR INSERT TO anon WITH CHECK (true);</code>';
+      }
+      if (msg.includes('column') || msg.includes('does not exist') || msg.includes('schema cache')) {
+        helpText += '<br><br>Проверь, что в таблице <code>leads</code> есть колонки: name, contact, source, segment, status, utm (тип jsonb).';
+      }
+      if (msg.includes('failed to fetch') || msg.includes('network')) {
+        helpText += '<br><br>Проблема с сетью или CORS. Проверь URL Supabase.';
+      }
+      throw new Error(helpText);
+    }
+
+    showCalc();
+  } catch (err) {
+    showError('Не удалось отправить', err.message);
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Попробовать снова';
+    console.error('Lead submit error:', err);
+  }
+});
+
+function fmt(n) { return Math.round(n).toLocaleString('ru-RU') + ' ₽'; }
+function calc() {
+  const v = id => +document.getElementById(id).value || 0;
+  const l1 = v('dmg-count') * v('dmg-price');
+  const l2 = v('late-count') * (v('late-pct') / 100) * v('late-aov');
+  const l3 = v('rev-count') * 20 * 0.15 * v('rev-aov');
+  const l4 = v('time-hrs') * 4 * v('time-rate');
+  const l5 = v('ret-count') * v('ret-cost');
+  const total = l1 + l2 + l3 + l4 + l5;
+  document.getElementById('out-1').textContent = fmt(l1);
+  document.getElementById('out-2').textContent = fmt(l2);
+  document.getElementById('out-3').textContent = fmt(l3);
+  document.getElementById('out-4').textContent = fmt(l4);
+  document.getElementById('out-5').textContent = fmt(l5);
+  document.getElementById('total').textContent = fmt(total);
+  document.getElementById('year').textContent = 'за год: ' + fmt(total * 12);
+}
+document.querySelectorAll('input[type="number"]').forEach(i => i.addEventListener('input', calc));
+calc();
+</script>
+
+</body>
+</html>
